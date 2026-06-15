@@ -1,0 +1,339 @@
+/* ============================================================
+   src/styles/global.css
+   ============================================================
+   Design System: "Solar Observatory" (light theme)
+   Palette: warm paper background + navy ink text + amber/coral
+            accent for data and threat states.
+   Typography: Fraunces (display/serif headers) + Space Grotesk
+               (UI) + IBM Plex Mono (numbers/data)
+   Signature element: dotted "star chart" grid backdrop +
+               paper-card panels with a horizon-gradient top edge
+   ============================================================ */
+ 
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,900&family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+ 
+/* ── Design Tokens ───────────────────────────────────────── */
+:root {
+  /* Paper / surface palette */
+  --paper-0:   #FAF7F1;   /* page background */
+  --paper-1:   #FFFFFF;   /* card surface */
+  --paper-2:   #F1ECE2;   /* subtle fill / hover */
+  --paper-edge:#E4DDCE;   /* hairline borders */
+ 
+  /* Ink (text) */
+  --ink-1:     #1F2A37;   /* primary text */
+  --ink-2:     #5B6878;   /* secondary text */
+  --ink-3:     #98A2B0;   /* muted/dim text */
+ 
+  /* Brand accent — warm amber */
+  --amber:       #E08A2C;
+  --amber-soft:  #FBE7CC;
+  --amber-deep:  #B5651D;
+ 
+  /* Threat palette (kept legible on light backgrounds) */
+  --green-safe:    #2F9E5B;
+  --green-soft:    #DCF3E5;
+  --amber-warn:    #D89A1B;
+  --amber-warn-soft: #FBF0D2;
+  --orange-high:   #E0682C;
+  --orange-soft:   #FBE2D4;
+  --red-critical:  #D33A3A;
+  --red-soft:      #FBDEDE;
+ 
+  /* Data / link accent */
+  --teal:        #1D7A78;
+  --teal-soft:   #DCEFEE;
+ 
+  /* Fonts */
+  --font-display: 'Fraunces', serif;
+  --font-ui:      'Space Grotesk', sans-serif;
+  --font-mono:    'IBM Plex Mono', monospace;
+  --font-hud:     'Space Grotesk', sans-serif;
+ 
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+ 
+  /* Shadows */
+  --shadow-card: 0 1px 2px rgba(31,42,55,0.04), 0 4px 16px rgba(31,42,55,0.05);
+  --shadow-card-hover: 0 2px 4px rgba(31,42,55,0.06), 0 8px 24px rgba(31,42,55,0.08);
+}
+ 
+/* ── Reset & Base ────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+}
+ 
+body {
+  background-color: var(--paper-0);
+  color: var(--ink-1);
+  font-family: var(--font-ui);
+  line-height: 1.6;
+  overflow-x: hidden;
+  /* Signature backdrop: faint star-chart dot grid on warm paper */
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(31,42,55,0.06) 1px, transparent 0);
+  background-size: 28px 28px;
+  background-attachment: fixed;
+}
+ 
+/* Scrollbar styling */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--paper-2); }
+::-webkit-scrollbar-thumb { background: var(--amber); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--amber-deep); }
+ 
+/* ── Typography Helpers ──────────────────────────────────── */
+.font-hud   { font-family: var(--font-ui); font-weight: 600; }
+.font-mono  { font-family: var(--font-mono); }
+.text-cyan  { color: var(--teal); }
+.text-dim   { color: var(--ink-3); }
+ 
+/* ── Glass Panel → Paper Card ────────────────────────────── */
+/* Class name kept as "glass-panel" so all components work
+   unchanged. Now a clean paper card with soft shadow and a
+   thin horizon-gradient rule along the top (signature element). */
+.glass-panel {
+  background: var(--paper-1);
+  border: 1px solid var(--paper-edge);
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+ 
+/* Signature element: a thin gradient "horizon line" along the
+   top edge of every card — evokes a sunrise/observatory horizon */
+.glass-panel::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--amber) 0%, var(--teal) 50%, var(--amber) 100%);
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 1;
+}
+ 
+.glass-panel > * { position: relative; z-index: 0; }
+ 
+.glass-panel:hover {
+  border-color: var(--amber);
+  box-shadow: var(--shadow-card-hover);
+}
+ 
+/* ── Threat Level Color Utilities ────────────────────────── */
+.threat-critical { color: var(--red-critical); }
+.threat-high     { color: var(--orange-high); }
+.threat-moderate { color: var(--amber-warn); }
+.threat-low      { color: var(--green-safe); }
+ 
+.threat-bg-critical { background: var(--red-soft);    border-color: var(--red-critical) !important; }
+.threat-bg-high     { background: var(--orange-soft); border-color: var(--orange-high) !important; }
+.threat-bg-moderate { background: var(--amber-warn-soft); border-color: var(--amber-warn) !important; }
+ 
+/* ── "Glow" → Soft emphasis on light backgrounds ─────────── */
+.glow-cyan  { color: var(--teal); font-weight: 600; }
+.glow-red   { color: var(--red-critical); font-weight: 700; }
+.glow-green { color: var(--green-safe); font-weight: 600; }
+ 
+/* ── Animations ──────────────────────────────────────────── */
+@keyframes pulse-ring {
+  0%   { transform: scale(0.85); opacity: 0.6; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+ 
+@keyframes blink-alert {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.45; }
+}
+ 
+@keyframes scan-line {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+ 
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-6px); }
+}
+ 
+@keyframes data-stream {
+  0%   { opacity: 0; transform: translateX(-8px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+ 
+@keyframes rotate-orbit {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+ 
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+ 
+/* Threat pulse ring — used around critical asteroid cards */
+.threat-pulse {
+  position: relative;
+}
+.threat-pulse::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  border: 1.5px solid var(--red-critical);
+  animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+  pointer-events: none;
+}
+ 
+/* ── HUD Badge ───────────────────────────────────────────── */
+.hud-badge {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+ 
+/* ── Stat Value Display ──────────────────────────────────── */
+.stat-value {
+  font-family: var(--font-mono);
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--ink-1);
+}
+ 
+.stat-label {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-top: 4px;
+}
+ 
+/* ── Live Indicator ─────────────────────────────────────── */
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green-safe);
+  box-shadow: 0 0 0 3px var(--green-soft);
+  animation: blink-alert 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+ 
+/* ── Scrollable List ─────────────────────────────────────── */
+.scroll-list {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--amber) transparent;
+}
+ 
+/* ── Progress / Threat Bar ───────────────────────────────── */
+.threat-bar-track {
+  width: 100%;
+  height: 5px;
+  background: var(--paper-2);
+  border-radius: 3px;
+  overflow: hidden;
+}
+ 
+.threat-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+ 
+/* ── Layout ──────────────────────────────────────────────── */
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+ 
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  grid-template-rows: auto 1fr;
+  gap: var(--space-4);
+  flex: 1;
+  padding: 16px;
+  max-width: 1600px;
+  margin: 0 auto;
+  width: 100%;
+}
+ 
+@media (max-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+ 
+/* ── Loading Screen ─────────────────────────────────────── */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--paper-0);
+  background-image: radial-gradient(circle at 1px 1px, rgba(31,42,55,0.06) 1px, transparent 0);
+  background-size: 28px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  flex-direction: column;
+  gap: 24px;
+}
+ 
+.loading-ring {
+  width: 64px;
+  height: 64px;
+  border: 3px solid var(--paper-2);
+  border-top-color: var(--amber);
+  border-radius: 50%;
+  animation: rotate-orbit 1s linear infinite;
+}
+ 
+/* ── Tooltips ────────────────────────────────────────────── */
+.tooltip {
+  position: relative;
+}
+.tooltip::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--ink-1);
+  border: 1px solid var(--ink-1);
+  color: var(--paper-1);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  z-index: 100;
+}
+.tooltip:hover::after { opacity: 1; }

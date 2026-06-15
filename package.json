@@ -1,0 +1,33 @@
+{
+  "name": "asteroid-threat-detector",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@react-three/drei": "^9.95.0",
+    "@react-three/fiber": "^8.15.0",
+    "ajv": "^8.20.0",
+    "ajv-keywords": "^5.1.0",
+    "axios": "^1.6.0",
+    "date-fns": "^3.3.0",
+    "framer-motion": "^10.18.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.21.0",
+    "react-scripts": "5.0.1",
+    "recharts": "^2.10.0",
+    "three": "^0.160.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead"
+    ],
+    "development": [
+      "last 1 chrome version"
+    ]
+  }
+}
